@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.wzry.heropower.config.Config;
 import org.wzry.heropower.config.Constant;
+import org.wzry.heropower.util.JsonConfigUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,8 +16,8 @@ import java.util.Map;
 public class GroupService implements Constant {
 
     public static final GroupService INSTANCE = new GroupService();
-    private Config config = Config.INSTANCE;
-    private String url = "https://test.wzxzs.cn/api/getPowerList?id=%s&type=1";
+    private Config config = Config.getConfigInstance();
+    private String url = "https://api.wzxzs.cn/api/select?hero=%s&type=%s";
 
     public boolean isHost(Long id) {
         List<Long> hosts = config.getHosts();
@@ -32,6 +33,83 @@ public class GroupService implements Constant {
             if (group.equals(id)) return true;
         }
         return false;
+    }
+
+    public void loadConfig() {
+        try {
+            config = (Config) JsonConfigUtil.getConfigFromFile("HeroPower", Config.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setConfig() {
+        try {
+            JsonConfigUtil.setConfigFile("HeroPower", config);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean isHeroRight(String hero) {
+        String[] allHero = {"韩信","百里玄策","嫦娥","铠","项羽","鲁班七号","孙悟空",
+                "上官婉儿","后羿","兰陵王","孙策","妲己","关羽","钟馗","李白",
+                "李元芳","钟无艳","伽罗","曜","典韦","百里守约","不知火舞","夏侯惇",
+                "狂铁","孙尚香","马可波罗","赵云","虞姬","貂蝉","米莱狄","瑶","公孙离",
+                "盘古","澜","牛魔","阿轲","程咬金","刘禅","干将莫邪","黄忠","吕布",
+                "姜子牙","宫本武藏","裴擒虎","亚瑟","夏洛特","成吉思汗","庄周","狄仁杰",
+                "小乔","诸葛亮","元歌","云中君","花木兰","镜","墨子","安琪拉","刘备",
+                "明世隐","张良","露娜","达摩","鬼谷子","李信","司马懿","大乔","盾山",
+                "蒙犽","杨戬","扁鹊","娜可露露","高渐离","嬴政","蔡文姬","马超","刘邦",
+                "廉颇","张飞","王昭君","梦奇","东皇太一","橘右京","芈月","白起","阿古朵",
+                "孙膑","曹操","老夫子","猪八戒","杨玉环","太乙真人","鲁班大师","甄姬","苏烈",
+                "周瑜","女娲","西施","雅典娜","沈梦溪","蒙恬","司空震","哪吒","弈星",
+                "武则天","艾琳","云缨","金蝉","暃","桑启"};
+        for (int i=0; i<allHero.length; i++) {
+            if (allHero[i].equals(hero)) return true;
+        }
+        return false;
+    }
+
+    public String getGameServer(String server) {
+        if ("安卓QQ".equalsIgnoreCase(server)) return "qq";
+        else if ("安卓微信".equalsIgnoreCase(server)) return "wx";
+        else if ("苹果QQ".equalsIgnoreCase(server)) return "ios_qq";
+        else if ("苹果微信".equalsIgnoreCase(server)) return "ios_wx";
+        else return "-1";
+    }
+    public String getHeroPower(String hero, String server) {
+        String url = String.format(this.url, hero, server);
+        String body = null;
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Host", "api.wzxzs.cn");
+        header.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat");
+        header.put("content-type", "application/json");
+        header.put("Referer", "https://servicewechat.com/wxaad8c6dc6599c5d4/26/page-frame.html");
+
+        try {
+            body = Jsoup.connect(url).headers(header).ignoreContentType(true).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "-1";
+        }
+
+        // 检查查询是否成功
+        JSONObject jsonObject = JSONObject.parseObject(body);
+        if (jsonObject.getInteger("code") != 200) return "-1";
+
+        // 格式化返回内容
+        JSONObject data = jsonObject.getJSONObject("data");
+        return formatData(data);
+    }
+
+    public String formatData(JSONObject data) {
+        String name = data.getString("name");
+        String time = data.getString("updatetime");
+        return String.format(HERO_POWER_ALL, time, name,
+                data.getString("province"), data.getString("provincePower"),
+                data.getString("city"), data.getString("cityPower"),
+                data.getString("area"), data.getString("areaPower"));
     }
 
     public String findHeroId(String hero) {
@@ -55,31 +133,8 @@ public class GroupService implements Constant {
         return "-1";
     }
 
-    public String getHeroPower(String id, String other) {
-        String url = String.format(this.url, id);
-        String body = null;
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("Host", "test.wzxzs.cn");
-        header.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat");
-        header.put("content-type", "application/json");
-        header.put("Referer", "https://servicewechat.com/wxaad8c6dc6599c5d4/24/page-frame.html");
 
-        try {
-            body = Jsoup.connect(url).ignoreContentType(true).execute().body();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "-1";
-        }
 
-        JSONObject jsonObject = JSONObject.parseObject(body);
-        if (jsonObject.getInteger("code") != 1) return "-1";
-
-        if (StringUtils.isBlank(other)) return formatJSONObject(JSONObject.parseObject(body));
-        else if (ALL_PROVINCE.equals(other)) return formatOther(JSONObject.parseObject(body), "heroProvince");
-        else if (ALL_CITY.equals(other)) return formatOther(JSONObject.parseObject(body), "heroCity");
-        else if (ALL_DISTRICT.equals(other)) return formatOther(JSONObject.parseObject(body), "heroArea");
-        return formatJSONObject(JSONObject.parseObject(body));
-    }
 
     public String formatJSONObject(JSONObject jsonObject) {
         JSONObject hero = jsonObject.getJSONObject("data").getJSONObject("hero");

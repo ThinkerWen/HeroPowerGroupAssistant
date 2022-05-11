@@ -16,7 +16,7 @@ public class GroupListener implements Constant {
 
     public static final GroupListener INSTANCE = new GroupListener();
     private GroupService service = GroupService.INSTANCE;
-    private Config config = Config.INSTANCE;
+    private Config config = Config.getConfigInstance();
 
     public void listen(EventChannel<Event> eventChannel) {
         eventChannel.subscribeAlways(GroupMessageEvent.class, g -> {
@@ -29,51 +29,86 @@ public class GroupListener implements Constant {
         Member sender = event.getSender();
         Group group = event.getGroup();
         String message = event.getMessage().contentToString();
-        String id = "0";
-        String other = null;
 
         if (StringUtils.isBlank(message)) return;
-
-        // 开关命令
-        if (PLUGIN_ON.equals(message) && !config.isEnable() && service.isHost(sender.getId())) {
-            config.setEnable(true);
-            group.sendMessage(PLUGIN_ON_SCRIPT);
+        // 插件关闭
+        if (!config.isEnable()) {
+            group.sendMessage(GLOBAL_OFF);
             return;
         }
-        if (PLUGIN_OFF.equals(message) && config.isEnable() && service.isHost(sender.getId())) {
-            config.setEnable(false);
+
+        // 群插件开关命令
+        if (PLUGIN_ON.equals(message) && !service.isGroupEnable(group.getId()) && service.isHost(sender.getId())) {
+            config.addGroup(group.getId());
+            group.sendMessage(PLUGIN_ON_SCRIPT);
+            service.setConfig();
+            return;
+        }
+        if (PLUGIN_OFF.equals(message) && service.isGroupEnable(group.getId()) && service.isHost(sender.getId())) {
+            config.removeGroup(group.getId());
+            group.sendMessage(PLUGIN_OFF_SCRIPT);
+            service.setConfig();
+            return;
+        }
+
+        // 查战力方法介绍
+        if (message.matches(QUESTION)) {
+            group.sendMessage(INTRODUCE);
+        }
+
+        // 插件管理员添加
+        String[] addHostParam = message.split(" ");
+        if (addHostParam.length == 2) {
+            if (HOST_ADD.equals(addHostParam[0])) {
+                config.addHost(Long.parseLong(addHostParam[1]));
+                service.setConfig();
+            } else if (HOST_REMOVE.equals(addHostParam[0])) {
+                config.removeHost(Long.parseLong(addHostParam[1]));
+                service.setConfig();
+            }
+        }
+
+        // 检查是否开启
+        if (!service.isGroupEnable(group.getId())) {
             group.sendMessage(PLUGIN_OFF_SCRIPT);
             return;
+        }
+
+        // 重载配置文件命令
+        if (CONFIG_LOAD.equalsIgnoreCase(message) && service.isHost(sender.getId())) {
+            service.loadConfig();
+            group.sendMessage(CONFIG_LOAD_OK);
         }
 
         // 查询命令
-        if (!service.isGroupEnable(group.getId())) return;
-        if (!config.isEnable()) {
-            group.sendMessage(PLUGIN_OFF_SCRIPT);
-            return;
-        }
-
         String[] params = message.split(" ");
+        // 匹配指令前缀是否正确
         if (!PFX.equals(params[0])) return;
-        for (int i=1; i<params.length; i++) {
-            // 匹配英雄
-            if (i == 1) {
-                id = service.findHeroId(params[i]);
-                if ("-1".equals(id)) {
-                    group.sendMessage(WRONG_TOKEN);
-                    return;
-                }
-            }
-            // 匹配其他
-            else if (i == 2) {
-                other = params[i];
-            }
-        }
-
-        if ("-1".equals(service.getHeroPower(id, other))) {
+        // 检查指令参数正确性
+        if (params.length != 3) {
             group.sendMessage(WRONG_TOKEN);
             return;
         }
-        group.sendMessage(service.getHeroPower(id, other));
+        // 匹配英雄
+        String hero = params[1];
+        if (!service.isHeroRight(hero)) {
+            group.sendMessage(WRONG_TOKEN);
+            return;
+        }
+
+        // 匹配区服
+        String server = service.getGameServer(params[2]);
+        if ("-1".equals(server)) {
+            group.sendMessage(WRONG_TOKEN);
+            return;
+        }
+
+        // 返回查询结果
+        String result = service.getHeroPower(hero, server);
+        if ("-1".equals(result)) {
+            group.sendMessage(WRONG_TOKEN);
+            return;
+        }
+        group.sendMessage(result);
     }
 }

@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
-
-    public static final Config INSTANCE = new Config();
-
     private boolean enable = true;
-    private boolean enableGroup = true;
     private List<Long> hosts = new ArrayList<Long>(){{
         add(296854007L);
         add(2689969038L);
@@ -21,7 +17,18 @@ public class Config {
         add(69687196L);
         add(102032180L);
         add(791673513L);
+        add(103172845L);
     }};
+
+    private Config() {}
+
+    private static final class ConfigHolder {
+        static final Config config = new Config();
+    }
+
+    public static Config getConfigInstance() {
+        return ConfigHolder.config;
+    }
 
     public boolean isEnable() {
         return enable;
@@ -31,35 +38,34 @@ public class Config {
         this.enable = enable;
     }
 
-    public boolean isEnableGroup() {
-        return enableGroup;
-    }
-
-    public void setEnableGroup(boolean enableGroup) {
-        this.enableGroup = enableGroup;
-    }
-
     public List<Long> getHosts() {
         return hosts;
     }
 
-    public void setHosts(List<Long> hosts) {
-        this.hosts = hosts;
+    public void addHost(Long host) {
+        this.hosts.add(host);
+    }
+
+    public void removeHost(Long host) {
+        this.hosts.remove(host);
     }
 
     public List<Long> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<Long> groups) {
-        this.groups = groups;
+    public void addGroup(Long group) {
+        this.groups.add(group);
+    }
+
+    public void removeGroup(Long group) {
+        this.groups.remove(group);
     }
 
     @Override
     public String toString() {
         return "Config{" +
                 "enable=" + enable +
-                ", enableGroup=" + enableGroup +
                 ", hosts=" + hosts +
                 ", groups=" + groups +
                 '}';

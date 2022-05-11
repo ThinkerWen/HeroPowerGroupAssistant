@@ -5,6 +5,10 @@ import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescriptionBuilder;
 import net.mamoe.mirai.event.Event;
 import net.mamoe.mirai.event.EventChannel;
 import net.mamoe.mirai.event.GlobalEventChannel;
+import org.wzry.heropower.config.Config;
+import org.wzry.heropower.util.JsonConfigUtil;
+
+import java.io.IOException;
 
 public final class HeroPower extends JavaPlugin {
     public static final HeroPower INSTANCE = new HeroPower();
@@ -20,6 +24,20 @@ public final class HeroPower extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        Config config = Config.getConfigInstance();
+        try {
+            if (JsonConfigUtil.createConfigFile("HeroPower")) {
+                JsonConfigUtil.setConfigFile("HeroPower", config);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            config = (Config) JsonConfigUtil.getConfigFromFile("HeroPower", Config.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         getLogger().info("王者战力查询 For QQGroup 已启用");
         EventChannel<Event> eventChannel = GlobalEventChannel.INSTANCE.parentScope(this);
         globalListener.loadListener(eventChannel);
