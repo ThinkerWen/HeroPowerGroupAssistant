@@ -61,9 +61,11 @@ public class GroupListener implements Constant {
         if (addHostParam.length == 2) {
             if (HOST_ADD.equals(addHostParam[0])) {
                 config.addHost(Long.parseLong(addHostParam[1]));
+                group.sendMessage(ADD_HOST_OK);
                 service.setConfig();
             } else if (HOST_REMOVE.equals(addHostParam[0])) {
                 config.removeHost(Long.parseLong(addHostParam[1]));
+                group.sendMessage(REMOVE_HOST_OK);
                 service.setConfig();
             }
         }

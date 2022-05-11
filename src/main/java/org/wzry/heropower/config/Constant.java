@@ -26,6 +26,10 @@ public interface Constant {
 
     String CONFIG_LOAD_OK = "加载配置文件成功";
 
+    String ADD_HOST_OK = "添加管理员成功";
+
+    String REMOVE_HOST_OK = "移除管理员成功";
+
     String INTRODUCE = "请输入：\n" +
             "“查战力 英雄 区服”来查询\n" +
             "例如：\n\n" +
