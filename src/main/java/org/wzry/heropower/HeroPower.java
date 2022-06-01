@@ -15,7 +15,7 @@ public final class HeroPower extends JavaPlugin {
     private GlobalListener globalListener = GlobalListener.INSTANCE;
 
     private HeroPower() {
-        super(new JvmPluginDescriptionBuilder("org.wzry.heropower.plugin", "1.0.0")
+        super(new JvmPluginDescriptionBuilder("org.wzry.heropower.plugin", "2.0.2")
                 .name("王者战力查询")
                 .info("联系作者VX：Rem_wife\n关注公众号：夜寒信息")
                 .author("暮至夜寒")
