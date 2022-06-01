@@ -30,7 +30,7 @@ public class GroupListener implements Constant {
 
         if (StringUtils.isBlank(message)) return;
         // 插件关闭
-        if (!config.isEnable() && PFX.equals(message.substring(0, 3))) {
+        if (!config.isEnable()) {
             group.sendMessage(GLOBAL_OFF);
             return;
         }
@@ -70,7 +70,9 @@ public class GroupListener implements Constant {
 
         // 检查是否开启
         if (!service.isGroupEnable(group.getId())) {
-            group.sendMessage(PLUGIN_OFF_SCRIPT);
+            if (PFX.equals(message.substring(0, 3))) {
+                group.sendMessage(PLUGIN_OFF_SCRIPT);
+            }
             return;
         }
 
