@@ -5,7 +5,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 public class JsonConfigUtil {
 
     public static <T> T getConfigFromFile(String fileName, Class<T> object) throws IOException {
