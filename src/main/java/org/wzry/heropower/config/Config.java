@@ -4,31 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
+    public static final Config INSTANCE = new Config();
     private boolean enable = true;
+    private String token = "free";
     private List<Long> hosts = new ArrayList<Long>(){{
         add(296854007L);
-        add(2689969038L);
-        add(168745806L);
     }};
     private List<Long> groups = new ArrayList<Long>(){{
-        add(907230911L);
-        add(497793737L);
         add(726925125L);
-        add(69687196L);
-        add(102032180L);
-        add(791673513L);
-        add(103172845L);
     }};
-
-    private Config() {}
-
-    private static final class ConfigHolder {
-        static final Config config = new Config();
-    }
-
-    public static Config getConfigInstance() {
-        return ConfigHolder.config;
-    }
 
     public boolean isEnable() {
         return enable;
@@ -38,11 +22,20 @@ public class Config {
         this.enable = enable;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
     public List<Long> getHosts() {
         return hosts;
     }
 
     public void addHost(Long host) {
+        for (Long id : this.hosts)
+            if (id.equals(host)) return;
         this.hosts.add(host);
     }
 
@@ -55,6 +48,8 @@ public class Config {
     }
 
     public void addGroup(Long group) {
+        for (Long id : this.groups)
+            if (id.equals(group)) return;
         this.groups.add(group);
     }
 

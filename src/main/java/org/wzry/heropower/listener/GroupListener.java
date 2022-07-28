@@ -16,7 +16,7 @@ public class GroupListener implements Constant {
 
     public static final GroupListener INSTANCE = new GroupListener();
     private GroupService service = GroupService.INSTANCE;
-    private Config config = Config.getConfigInstance();
+    private Config config = Config.INSTANCE;
 
     public void listen(EventChannel<Event> eventChannel) {
         //监听群消息

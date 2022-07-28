@@ -24,7 +24,8 @@ public final class HeroPower extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Config config = Config.getConfigInstance();
+        Config config = Config.INSTANCE;
+        // 首次启动创建本地配置文件，并将配置累内容写入文件中
         try {
             if (JsonConfigUtil.createConfigFile("HeroPower")) {
                 JsonConfigUtil.setConfigFile("HeroPower", config);
@@ -32,6 +33,7 @@ public final class HeroPower extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // 每次启动插件载入本地json
         try {
             config = (Config) JsonConfigUtil.getConfigFromFile("HeroPower", Config.class);
         } catch (IOException e) {
@@ -40,6 +42,6 @@ public final class HeroPower extends JavaPlugin {
 
         getLogger().info("王者战力查询 For QQGroup 已启用");
         EventChannel<Event> eventChannel = GlobalEventChannel.INSTANCE.parentScope(this);
-        globalListener.loadListener(eventChannel);
+        globalListener.listen(eventChannel);
     }
 }

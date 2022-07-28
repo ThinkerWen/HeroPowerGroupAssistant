@@ -16,7 +16,7 @@ import java.util.Map;
 public class GroupService implements Constant {
 
     public static final GroupService INSTANCE = new GroupService();
-    private Config config = Config.getConfigInstance();
+    private Config config = Config.INSTANCE;
     private String url = "https://api.wzxzs.cn/api/select?hero=%s&type=%s";
 
     public boolean isHost(Long id) {

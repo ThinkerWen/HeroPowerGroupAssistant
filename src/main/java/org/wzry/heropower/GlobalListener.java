@@ -7,10 +7,10 @@ import org.wzry.heropower.listener.GroupListener;
 
 public class GlobalListener {
     private GroupListener groupListener = GroupListener.INSTANCE;
-    private Config config = Config.getConfigInstance();
+    private Config config = Config.INSTANCE;
     public static final GlobalListener INSTANCE = new GlobalListener();
 
-    public void loadListener(EventChannel<Event> eventChannel) {
+    public void listen(EventChannel<Event> eventChannel) {
         if (!config.isEnable()) return;
 
         groupListener.listen(eventChannel);
