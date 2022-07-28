@@ -10,9 +10,17 @@ import org.wzry.heropower.util.JsonConfigUtil;
 
 import java.io.IOException;
 
+/**
+ * Copyright (c) 2022. Jason Wang (wxw126mail@126.com)
+ * Title: HeroPower
+ * Description: 插件加载入口
+ *
+ * @author: 王晓文
+ * @date: 2022/7/28 23:33
+ */
 public final class HeroPower extends JavaPlugin {
     public static final HeroPower INSTANCE = new HeroPower();
-    private GlobalListener globalListener = GlobalListener.INSTANCE;
+    private final GlobalListener globalListener = GlobalListener.INSTANCE;
 
     private HeroPower() {
         super(new JvmPluginDescriptionBuilder("org.wzry.heropower.plugin", "2.0.2")

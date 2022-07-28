@@ -4,17 +4,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jsoup.Jsoup;
+import org.wzry.heropower.config.Constant;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class SearchUtil {
+/**
+ * Copyright (c) 2022. Jason Wang (wxw126mail@126.com)
+ * Title: SearchUtil
+ * Description: 插件搜索检测工具类
+ *
+ * @author: 王晓文
+ * @date: 2022/7/28 23:33
+ */
+public class SearchUtil implements Constant {
 
-    public static String getHeroPower(String token, String hero, String server) {
-        String url = String.format("https://www.hive-net.cn/heropower/?token=%s&hero=%s&server=%s",token , hero, server);
+    public static String getHeroPower(String token, String hero, String type) {
+        String url = String.format("https://www.hive-net.cn/heropower/?token=%s&hero=%s&type=%s", token, hero, type);
         String body = null;
-        Map<String, String> header = new HashMap<String, String>();
         try {
             body = Jsoup.connect(url).ignoreContentType(true).execute().body();
         } catch (IOException e) {
@@ -27,10 +33,18 @@ public class SearchUtil {
         } catch (JsonProcessingException e) {
             return "请求出错，请联系作者！";
         }
-        if (jsonNode.get("code").asInt() != 0) return "";
+        if (jsonNode.get("code").asInt() != 0) return "请求出错，请联系作者！";
+        JsonNode jsonProvince = jsonNode.get("province");
+        JsonNode jsonCity = jsonNode.get("city");
+        JsonNode jsonArea = jsonNode.get("area");
+        return String.format(HERO_POWER_ALL,
+                jsonNode.get("updatetime").asText(), jsonNode.get("name").asText(),
+                jsonProvince.get("name").asText(), jsonProvince.get("power").asText(),
+                jsonCity.get("name").asText(), jsonCity.get("power").asText(),
+                jsonArea.get("name").asText(), jsonArea.get("power").asText());
     }
 
-    public static boolean isHeroRight(String searchHero) {
+    public static String getHero(String searchHero) {
         String[] allHero = {"韩信","百里玄策","嫦娥","铠","项羽","鲁班七号","孙悟空",
                 "上官婉儿","后羿","兰陵王","孙策","妲己","关羽","钟馗","李白",
                 "李元芳","钟无艳","伽罗","曜","典韦","百里守约","不知火舞","夏侯惇",
@@ -44,8 +58,8 @@ public class SearchUtil {
                 "孙膑","曹操","老夫子","猪八戒","杨玉环","太乙真人","鲁班大师","甄姬","苏烈",
                 "周瑜","女娲","西施","雅典娜","沈梦溪","蒙恬","司空震","哪吒","弈星",
                 "武则天","艾琳","云缨","金蝉","暃","桑启","戈娅"};
-        for (String hero : allHero) if (hero.equals(searchHero)) return true;
-        return false;
+        for (String hero : allHero) if (hero.equals(searchHero)) return hero;
+        return null;
     }
 
     public static String getGameServer(String server) {
@@ -53,6 +67,6 @@ public class SearchUtil {
         else if ("安卓微信".equalsIgnoreCase(server)) return "wx";
         else if ("苹果QQ".equalsIgnoreCase(server)) return "ios_qq";
         else if ("苹果微信".equalsIgnoreCase(server)) return "ios_wx";
-        else return "-1";
+        else return null;
     }
 }

@@ -3,6 +3,14 @@ package org.wzry.heropower.config;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Copyright (c) 2022. Jason Wang (wxw126mail@126.com)
+ * Title: Config
+ * Description: 插件配置类
+ *
+ * @author: 王晓文
+ * @date: 2022/7/28 23:33
+ */
 public class Config {
     public static final Config INSTANCE = new Config();
     private boolean enable = true;

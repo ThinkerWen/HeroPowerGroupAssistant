@@ -5,6 +5,15 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+/**
+ * Copyright (c) 2022. Jason Wang (wxw126mail@126.com)
+ * Title: JsonConfigUtil
+ * Description: 插件本地配置文件工具类
+ *
+ * @author: 王晓文
+ * @date: 2022/7/28 23:33
+ */
 public class JsonConfigUtil {
 
     public static <T> T getConfigFromFile(String fileName, Class<T> object) throws IOException {
