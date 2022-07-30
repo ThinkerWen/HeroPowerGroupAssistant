@@ -1,14 +1,16 @@
 package org.wzry.heropower.listener;
 
+import jdk.jfr.internal.JVM;
 import kotlin.coroutines.CoroutineContext;
+import net.mamoe.mirai.console.plugin.jvm.JvmPlugin;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.jetbrains.annotations.NotNull;
+import org.wzry.heropower.HeroPower;
 import org.wzry.heropower.config.Config;
 import org.wzry.heropower.config.Constant;
-import org.wzry.heropower.util.JsonConfigUtil;
 
 import java.io.IOException;
 
@@ -39,30 +41,27 @@ public class SettingEventHolder extends SimpleListenerHost implements Constant {
         // 开启查战力功能
         if (SEARCH_ON_KEY.equals(event.getMessage().contentToString())) {
             config.addGroup(group.getId());
-            JsonConfigUtil.setConfigFile("HeroPower", config);
             group.sendMessage(SEARCH_ON);
         }
         // 关闭查战力功能
         else if (SEARCH_OFF_KEY.equals(event.getMessage().contentToString())) {
             config.removeGroup(group.getId());
-            JsonConfigUtil.setConfigFile("HeroPower", config);
             group.sendMessage(SEARCH_OFF);
         }
         // 添加此QQ为管理员
         else if (HOST_ADD_KEY.equals(param[0])) {
             config.addHost(host);
-            JsonConfigUtil.setConfigFile("HeroPower", config);
             group.sendMessage(HOST_ADD);
         }
         // 移除此QQ的管理员
         else if (HOST_REMOVE_KEY.equals(param[0])) {
             config.removeHost(host);
-            JsonConfigUtil.setConfigFile("HeroPower", config);
             group.sendMessage(HOST_REMOVE);
         }
         // 重新加载配置文件
         else if (LOAD_CONFIG_KEY.equals(event.getMessage().contentToString())) {
-            JsonConfigUtil.getConfigFromFile("HeroPower", Config.class);
+            HeroPower.INSTANCE.reloadPluginConfig(Config.INSTANCE);
+            System.out.println(Config.INSTANCE.getHosts());
             group.sendMessage(LOAD_CONFIG);
         }
     }

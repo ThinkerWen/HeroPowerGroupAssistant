@@ -24,7 +24,7 @@ public class GlobalListener {
     public static final GlobalListener INSTANCE = new GlobalListener();
 
     public void listen(EventChannel<Event> eventChannel) {
-        if (!config.isEnable()) return;
+        if (!config.getEnable()) return;
 
         /*
          * 群消息事件监听
