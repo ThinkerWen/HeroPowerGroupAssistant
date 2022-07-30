@@ -32,7 +32,6 @@ public object Config : AutoSavePluginConfig("HeroPower") {
     }
 
     fun removeHost(host: Long) {
-        for (id in hosts) if (id == host) return
         hosts.remove(host)
     }
 

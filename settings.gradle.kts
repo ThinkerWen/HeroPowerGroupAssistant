@@ -1,1 +1,9 @@
-rootProject.name = "HeroPower"
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+        mavenCentral()
+        maven("https://dl.bintray.com/kotlin/kotlin-eap")
+    }
+}
+rootProject.name = "HeroPowerGroupAssistant"
