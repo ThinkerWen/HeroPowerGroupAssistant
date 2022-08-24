@@ -10,6 +10,7 @@
 [![PackageVersion](https://img.shields.io/badge/mirai-2.10.1-blue)](https://github.com/mamoe/mirai)
 [![PackageVersion](https://img.shields.io/badge/suggestion-issue-blue)](https://github.com/Raptor-wxw/HeroPowerGroupAssistant/issues)
 [![PackageVersion](https://img.shields.io/badge/download-release-blue)](https://github.com/Raptor-wxw/HeroPowerGroupAssistant/releases)
+[![PackageVersion](https://img.shields.io/badge/Chat-MiraiForum-brightgreen)](https://mirai.mamoe.net/topic/1430/heropower%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E6%9F%A5%E6%88%98%E5%8A%9B%E7%9A%84qq%E7%BE%A4%E6%8F%92%E4%BB%B6)
 </div>
 
 ----
