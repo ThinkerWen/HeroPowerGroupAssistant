@@ -4,6 +4,7 @@
 
 
 
+
 [![PackageVersion](https://img.shields.io/badge/code-Github-red)](https://github.com/Raptor-wxw/HeroPowerGroupAssistant)
 [![PackageVersion](https://img.shields.io/badge/java-11-orange)](https://www.oracle.com/java/technologies/downloads/#java11)
 [![PackageVersion](https://img.shields.io/badge/mirai-2.10.1-blue)](https://github.com/mamoe/mirai)
@@ -24,10 +25,10 @@
 
 ## 安装
 
-本项目基于[Mirai](https://github.com/mamoe/mirai)开发，项目代码90%采用Java语言开发。开发者可以阅读[源代码](https://github.com/Raptor-wxw/HeroPowerGroupAssistant/tree/master/src/main/java/org/wzry/heropower)，Fork此项目并应用提交您的更改。
-用户安装请查看[Mirai用户文档](https://github.com/mamoe/mirai/blob/dev/docs/UserManual.md)，安装纯[控制台版本](https://github.com/mamoe/mirai/blob/dev/docs/ConsoleTerminal.md)，或着[图形化界面版本](https://github.com/sonder-joker/mirai-compose/releases)，或者[安卓手机端版本](https://github.com/mzdluo123/MiraiAndroid)。若登录过程弹出验证码，请使用[滑动验证助手](https://github.com/mzdluo123/TxCaptchaHelper)。
+**本项目基于[Mirai](https://github.com/mamoe/mirai)开发，项目代码90%采用Java语言开发。开发者可以阅读[源代码](https://github.com/Raptor-wxw/HeroPowerGroupAssistant/tree/master/src/main/java/org/wzry/heropower)，Fork此项目并应用提交您的更改。**
+**用户安装请查看[Mirai用户文档](https://github.com/mamoe/mirai/blob/dev/docs/UserManual.md)，安装纯[控制台版本](https://github.com/mamoe/mirai/blob/dev/docs/ConsoleTerminal.md)，或着[图形化界面版本](https://github.com/sonder-joker/mirai-compose/releases)，或者[安卓手机端版本](https://github.com/mzdluo123/MiraiAndroid)。若登录过程弹出验证码，请使用[滑动验证助手](https://github.com/mzdluo123/TxCaptchaHelper)。**
 
-### Mirai安装地址
+### Mirai安装地址 :
 
 [Linux控制台](https://github.com/iTXTech/mcl-installer/releases/download/v1.0.7/mcl-installer-1.0.7-linux-amd64-musl)
 
@@ -41,16 +42,16 @@
 
 [安卓App](https://github.com/mzdluo123/MiraiAndroid/releases)
 
-### 插件安装方法
+### 插件安装方法 :
 
-**安装好Mirai后，在Mirai安装的主路径中有plugins文件夹，将HeroPowerGroupAssistant-xxx.jar复制到plugins文件夹内即可。**
+**安装好Mirai后，在Mirai安装的主路径中有plugins文件夹，将HeroPowerGroupAssistant-xxx.mirai.jar复制到plugins文件夹内即可。**
 **装好插件第一次启动后会自动在Mirai安装的主路径中的config文件夹下生成org.wzry.heropower.HeroPower文件夹，文件夹内的HeroPower.yml为插件配置文件，按注释修改，添加机器人主人和群聊，即可在相应群聊中使用插件了。**
 
 ****
 
 ## 插件使用方式：
 
-**输入：**<br>
+**聊天窗口发送：**<br>
 **“查战力 英雄 区服”**
 
 **例如：**<br>
@@ -75,4 +76,6 @@
 
 ## 示例：
 
-![示例图片](https://s2.loli.net/2022/07/29/9FuyAZwzTnQCWXE.jpg)
+<div align="center">
+    <img src="https://s2.loli.net/2022/07/29/9FuyAZwzTnQCWXE.jpg" width="400" alt="HeroPower" />
+</div>
