@@ -50,7 +50,7 @@ public class GroupEventHolder extends SimpleListenerHost implements Constant {
             group.sendMessage(WRONG_TOKEN);
             return;
         }
-        String hero = SearchUtil.getHero(params[1]);
+        String hero = params[1];
         String server = SearchUtil.getGameServer(params[2]);
 
         // 检查英雄、区服是否错误

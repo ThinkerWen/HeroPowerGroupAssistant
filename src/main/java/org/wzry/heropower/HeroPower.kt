@@ -16,7 +16,7 @@ import org.wzry.heropower.config.Config
 
 object HeroPower : KotlinPlugin(
 
-    JvmPluginDescriptionBuilder("org.wzry.heropower.HeroPower", "2.2.1")
+    JvmPluginDescriptionBuilder("org.wzry.heropower.HeroPower", "2.3.1")
         .name("HeroPower王者战力查询")
         .info("联系作者VX：Rem_wife\n关注公众号：夜寒信息")
         .author("暮至夜寒")
