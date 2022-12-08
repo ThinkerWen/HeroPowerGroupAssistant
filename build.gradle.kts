@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "org.wzry.heropower"
-version = "2.3.1"
+version = "2.4.0"
 
 repositories {
     maven("https://maven.aliyun.com/repository/public")

@@ -78,6 +78,7 @@ public interface Constant {
             "市标：\n" +
             "%s %s分\n" +
             "区标：\n" +
-            "%s %s分";
+            "%s %s分\n\n" +
+            "微信小程序《峡谷战力查改》";
 
 }

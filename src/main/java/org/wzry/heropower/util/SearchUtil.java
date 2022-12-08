@@ -19,7 +19,10 @@ import java.io.IOException;
 public class SearchUtil implements Constant {
 
     public static String getHeroPower(String token, String hero, String type) {
-        String url = String.format("https://www.hive-net.cn/heropower/?token=%s&hero=%s&type=%s", token, hero, type);
+        String url = "https://www.hive-net.cn/funtools/heroPower/getPower?"
+                .concat("hero=").concat(hero)
+                .concat("&type=").concat(type)
+                .concat("&token=").concat(token);
         String body = null;
         try {
             body = Jsoup.connect(url).ignoreContentType(true).execute().body();
@@ -34,19 +37,20 @@ public class SearchUtil implements Constant {
             return "请求出错，请联系作者！";
         }
         if (jsonNode.get("code").asInt() != 0) return WRONG_TOKEN;
-        JsonNode jsonProvince = jsonNode.get("province");
-        JsonNode jsonCity = jsonNode.get("city");
-        JsonNode jsonArea = jsonNode.get("area");
+        JsonNode data = jsonNode.get("data");
+        JsonNode jsonProvince = data.get("province");
+        JsonNode jsonCity = data.get("city");
+        JsonNode jsonArea = data.get("area");
         return String.format(HERO_POWER_ALL,
-                jsonNode.get("server").asText(), jsonNode.get("name").asText(), jsonNode.get("updatetime").asText(),
+                data.get("server").asText(), data.get("name").asText(), data.get("updatetime").asText(),
                 jsonProvince.get("name").asText(), jsonProvince.get("power").asText(),
                 jsonCity.get("name").asText(), jsonCity.get("power").asText(),
                 jsonArea.get("name").asText(), jsonArea.get("power").asText());
     }
 
     public static String getGameServer(String server) {
-        if ("安卓QQ".equalsIgnoreCase(server)) return "qq";
-        else if ("安卓微信".equalsIgnoreCase(server)) return "wx";
+        if ("安卓QQ".equalsIgnoreCase(server)) return "aqq";
+        else if ("安卓微信".equalsIgnoreCase(server)) return "awx";
         else if ("苹果QQ".equalsIgnoreCase(server)) return "ios_qq";
         else if ("苹果微信".equalsIgnoreCase(server)) return "ios_wx";
         else return null;
