@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://www.hive-net.cn/Program/HeroPowerMiniProgram/logo_circle.png" width="200" alt="HeroPower"/>
+    <img src="https://www.hive-net.cn/Assets/HeroPower/logo_circle.png" width="200" alt="HeroPower"/>
     <h1>HeroPowerGroupAssistant</h1>
 
 
